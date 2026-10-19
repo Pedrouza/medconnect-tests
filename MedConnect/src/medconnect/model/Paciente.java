@@ -3,6 +3,7 @@ package medconnect.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import medconnect.util.IdadeUtil;
 
 /**
  * Entidade Paciente - Representa um paciente no sistema
@@ -57,8 +58,8 @@ public class Paciente implements Serializable {
 
     public Integer calcularIdade() {
         if (dataNascimento == null) return null;
-        long diff = new Date().getTime() - dataNascimento.getTime();
-        return (int) (diff / (1000L * 60 * 60 * 24 * 365));
+        java.time.LocalDate nasc = new java.sql.Date(dataNascimento.getTime()).toLocalDate();
+        return IdadeUtil.calcularIdade(nasc, java.time.LocalDate.now());
     }
 
     @Override

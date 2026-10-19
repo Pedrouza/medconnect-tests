@@ -6,6 +6,7 @@ import medconnect.validator.ConsultaValidator;
 import medconnect.exception.NegocioException;
 import java.util.List;
 import java.util.Date;
+import medconnect.util.AgendaRegras;
 
 /**
  * Service para regras de negócio de Consulta
@@ -129,13 +130,6 @@ public class ConsultaService {
      */
     private boolean existeConflitoHorario(Consulta consulta) throws NegocioException {
         List<Consulta> consultasMedico = buscarPorMedico(consulta.getIdMedico());
-        
-        for (Consulta c : consultasMedico) {
-            if (c.getDataHora().equals(consulta.getDataHora())) {
-                return true;
-            }
-        }
-        
-        return false;
+        return AgendaRegras.existeConflitoHorario(consultasMedico, consulta.getDataHora());
     }
 }
